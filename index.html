@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <meta charset="utf8">
+    <head>
+        <link rel="stylesheet" href="css/bulma.css">
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/danclient.js"></script>
+        <title>NSG-DAN POC</title>
+    </head>
+    <body class="content">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <p class="title">
+                data.altinn.no Business Information Lookup
+                </p>
+                <p class="subtitle">
+                Nordic Smart Government
+                </p>
+            </div>
+        </section>
+
+        <div class="hero-body">
+            <div class="field is-medium">
+                <label class="label is-medium">Enter a business-ID</label>
+                <div class="control">
+                    <input class="input is-medium" id="txtBusinessId" type="text" placeholder="0192:991825827">
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-primary is-medium" id="btnLookup">Look up</button>
+            </div>
+
+            <p> 
+                <small><em>Examples: <a href="javascript:;" class="js-example">0192:991825827</a>, <a href="javascript:;" class="js-example">0212:1558237-3</a></em></small>
+            </p>
+
+            <article class="message">
+                <div class="message-body">
+                    <p>This is a simple proof-of-concept using <a href="https://data.altinn.no">data.altinn.no</a> as a proxy for aquiring information about businesses from various national business registries. A simple dataset based on the <a href="https://stirdata.github.io/data-specification/">STIRData business model</a> can be aquired for businesses in nordic countries (currently Norway and Finland). Input is a <a href="https://docs.peppol.eu/edelivery/">PEPPOL</a> Participant Identifier (see "Policy for use of identifiers", chapter 3), which is based the <a href="https://en.wikipedia.org/wiki/ISO/IEC_6523">ISO/IEC 6523</a>-standard. </p>
+                    <p>
+                    This PoC supports the following <a href="https://docs.peppol.eu/poacc/billing/3.0/codelist/ICD/">ICDs</a>: 0192 = Bronnoysund Central Coordinating Register for Legal Entities, 0212 = State Treasury of Finland / Valtiokonttor.</p>
+                </div>
+            </article>
+        </div>
+    </body>
+</html>
