@@ -19,6 +19,8 @@
 
 #js-loader { display: none; }
 
+.diagram { margin: 2rem 0 }
+.diagram img { min-height: 25rem }
 
 /* Spinner from https://loading.io/css/ */
 
