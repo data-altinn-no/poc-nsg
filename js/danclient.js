@@ -5,12 +5,13 @@ $(window).on("load", function() {
 
     $("#btnLookup").on("click", function() {
         let $btn = $(this);
+        let url = "https://dev-api.data.altinn.no/v1/opendata/NsgCompanyBasicInformation/" + encodeURIComponent($("#txtBusinessId").val().replace(/\s/, ""));
         $btn.attr("disabled", "disabled");
         $(".js-result").hide();
         $("#js-loader").show();
-        $.get("https://dev-api.data.altinn.no/v1/opendata/NsgCompanyBasicInformation/" + encodeURIComponent($("#txtBusinessId").val().replace(/\s/, "")), function(r) {
+        $.get(url, function(r) {
             $("#js-result-formatted").html(getFormatResultHtml(r));
-            $("#js-result-source > pre").html(syntaxHighlight(JSON.stringify(r, null, 4)));
+            $("#js-result-source > pre").html(`GET <a href="${url}">${url}</a>\n${syntaxHighlight(JSON.stringify(r, null, 4))}`);
             $("#js-result-formatted").show();
             $("#js-result-source").show();
         }, "json")
