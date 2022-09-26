@@ -2,6 +2,11 @@
 <html>
     <meta charset="utf8">
     <head>
+        <script>
+            if (window.location.host.includes("azurestaticapps.net")) {
+                window.location = "https://nsg-dan-poc.data.altinn.no/";
+            }
+        </script>
         <link rel="stylesheet" href="css/bulma.css">
         <link rel="stylesheet" href="css/poc.css">
         <script src="js/jquery-3.6.0.min.js"></script>
