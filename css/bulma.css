@@ -3255,7 +3255,7 @@ a.tag:hover {
   margin-bottom: 5px;
   text-transform: uppercase;
 }
-
+/*
 .number {
   align-items: center;
   background-color: whitesmoke;
@@ -3269,7 +3269,7 @@ a.tag:hover {
   padding: 0.25rem 0.5rem;
   text-align: center;
   vertical-align: top;
-}
+}*/
 
 /* Bulma Form */
 .input, .textarea, .select select {

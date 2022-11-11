@@ -17,7 +17,7 @@ $(window).on("load", function() {
         }, "json")
         .fail(function(r) {
             console.log(r);
-            $("#js-error-message").text(r.responseJSON.detailDescription);
+            $("#js-error-message").text(r.responseJSON.detailDescription === undefined ? r.responseJSON.description : r.responseJSON.detailDescription);
             $("#js-result-error").show();
         })
         .always(function() {
@@ -51,25 +51,20 @@ function syntaxHighlight(json) {
 function getFormatResultHtml(r) {
 
     var result = `
-    <div class="bg"><div style="background-image:url('/gfx/${getFlagPng(r.Identifier)}')"></div></div>
-    <h2>${r.RegisteredOrganization.legalName}</h2>
-    <small>Company-ID: ${r.Identifier}</small>
+    <div class="bg"><div style="background-image:url('/gfx/${getFlagPng($("#txtBusinessId").val().replace(/\s/, ""))}')"></div></div>
+    <h2>${r.name}</h2>
+    <small>Company-ID: ${r.identifier.notation}</small>
     <dl>
     `;
 
-    if (r.RegisteredOrganization.foundingDate != null) {
-        result += `<dt>Founded:</dt><dd>${formatDate(r.RegisteredOrganization.foundingDate)}</dd>`;
+    if (r.registrationDate != null) {
+        result += `<dt>Founded:</dt><dd>${formatDate(r.registrationDate)}</dd>`;
     }
 
-    if (r.RegisteredOrganization.hasOwnProperty("dissolutionDate")) {
-        result += `<dt>Dissolved:</dt><dd>${formatDate(r.RegisteredOrganization.dissolutionDate)}</dd>`;
-    }
-
-    if (r.Address.thoroughfare != null || r.Address.locatorDesignator != null || r.Address.adressArea != null || r.Address.postCode != null || r.Address.postName != null) {
+    if (r.addresses?.postalAddress?.fullAddress !== undefined) {
         result += "<dt>Address:</dt><dd>";
-        result += `${ein(r.Address.thoroughfare)} ${ein(r.Address.locatorDesignator)}<br>`;
-        result += `${ein(r.Address.adressArea, "<br>")}`;
-        result += `${ein(r.Address.postCode)} ${ein(r.Address.postName)}</dd></dl>`;
+        result += r.addresses.postalAddress.fullAddress.split(';').join('<br>');
+        result += "</dd>";
     }
 
     return result;
