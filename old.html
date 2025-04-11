@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <meta charset="utf8">
+    <head>
+        <script>
+            if (window.location.host.includes("azurestaticapps.net")) {
+                window.location = "https://nsg-dan-poc.data.altinn.no/";
+            }
+        </script>
+        <link rel="stylesheet" href="css/bulma.css">
+        <link rel="stylesheet" href="css/poc.css">
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/danclient.js"></script>
+        <title>NSG-DAN POC</title>
+    </head>
+    <body class="content">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <p class="title">
+                Nordic Smart Government & Business Lookup
+                </p>
+                <p class="subtitle">
+               data.altinn.no
+                </p>
+            </div>
+        </section>
+
+        <div class="hero-body">
+
+            <article class="message">
+                <div class="message-body">
+                    <p>This is a simple proof-of-concept using <a href="https://data.altinn.no">data.altinn.no</a> as a proxy for aquiring information about businesses from various national business registries. 
+
+                    This attempts to map the national models to the <a href="https://tietomallit.suomi.fi/model/agent3/">Agend-based Nordic Business Data Information Model</a>.
+
+                    Input is a <a href="https://docs.peppol.eu/edelivery/">PEPPOL</a> Participant Identifier (see "Policy for use of identifiers", chapter 3), which is based the <a href="https://en.wikipedia.org/wiki/ISO/IEC_6523">ISO/IEC 6523</a>-standard. </p>
+                    <p>
+                   
+                </div>
+            </article>
+
+            <div class="field is-medium">
+                <label class="label is-medium">Enter a business-ID</label>
+                <div class="control">
+                    <input class="input is-medium" id="txtBusinessId" type="text" placeholder="0192:991825827">
+                </div>
+            </div>
+            <div class="field is-medium">
+                <label class="label is-medium">Enter your apikey</label>
+                <div class="control">
+                    <input class="input is-medium" id="txtApiKey" type="text" placeholder="guid">
+                </div>
+            </div>           
+
+            <div class="control">
+                <button class="button is-primary is-medium" id="btnLookup">Look up</button>
+            </div>
+
+            <p> 
+                <small><em>Examples: 
+                    <a href="javascript:;" class="js-example">NO:991825827</a>, 
+                    <a href="javascript:;" class="js-example">NO:992119500</a>,
+                    <a href="javascript:;" class="js-example">FI:1558237-3</a>,
+                    <a href="javascript:;" class="js-example">FI:1958763-0</a>,
+                    <a href="javascript:;" class="js-example">SE:556810-8988</a>,
+                    <a href="javascript:;" class="js-example">IS:5402696029</a>
+                </em></small>
+            </p>
+
+            <section class="columns result">
+                <div id="js-result-formatted" class="column js-result formatted-result"></div>
+                <div id="js-result-source" class="column js-result formatted-source"><pre></pre></div>                
+            </section>
+
+            <div id="js-result-error" class="js-result error-result">
+                <article class="message is-danger">
+                    <div class="message-body">
+                       An error occured: <span id="js-error-message"></span>
+                    </div>
+                </article>
+            </div>
+
+            <div id="js-loader">
+                <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+            </div>
+
+
+            <div class="diagram">
+                <img src="/gfx/diagram.svg">
+            </div>
+
+            <footer>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/elsand/dan-poc-nsg/">Source for this page</a></li>
+                    <li><a href="https://github.com/Altinn/dan-plugin-nsg/">DAN NSG plugin</a></li>
+                </ul>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,3 +1,128 @@
+
+
+
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.hero {
+  background: linear-gradient(120deg, #007acc, #133349);
+  color: white;
+  animation: fadeInDown 1s ease-out;
+}
+
+.message {
+  margin-top: 2rem;
+}
+
+.input, .button {
+  transition: all 0.3s ease-in-out;
+}
+
+.input:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 0 0.125em rgba(0,122,204,0.25);
+}
+
+.button {
+  background-color: #133349;
+}
+
+.button:hover {
+  background-color: #004d80;
+}
+
+.formatted-result, .formatted-source {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.diagram img {
+  max-width: 100%;
+  margin-top: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+}
+
+#js-loader {
+  display: none;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #007acc;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+@keyframes lds-ellipsis2 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(24px); }
+}
+
+@keyframes lds-ellipsis3 {
+  0% { transform: scale(1); }
+  100% { transform: scale(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.js-example {
+  margin-right: 10px;
+}
+
+
 .result > div { outline: 1px solid #ccc; margin: 0.8rem }
 
 .formatted-source { padding: 0; display: none; }
