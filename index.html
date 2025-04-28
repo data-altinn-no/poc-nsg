@@ -9,39 +9,95 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/danclient.js"></script>
+  <script src="js/page.js"></script>
 
   <script>
     if (window.location.host.includes("azurestaticapps.net")) {
-      window.location = "https://nsg-dan-poc.data.altinn.no/";
+      window.location = "https://nsg.data.altinn.no/?lang=no";
     }
-  </script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const languageSelect = document.getElementById('languageSelect');
+    const userLang = localStorage.getItem('lang') || 'no';
+    loadLanguage(userLang);
+
+    if (languageSelect) {
+      languageSelect.value = userLang;
+
+      languageSelect.addEventListener('change', function () {
+        const selectedLang = this.value;
+        localStorage.setItem('lang', selectedLang);
+        loadLanguage(selectedLang);
+      });
+    }
+  });
+
+  function loadLanguage(lang) {
+    fetch(`lang/${lang}.json`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("title").innerText = data.title;
+        document.getElementById("subtitle").innerText = data.subtitle;
+        document.getElementById("label-business-id").innerText = data.labelBusinessId;
+        document.getElementById("label-apikey").innerText = data.labelApiKey;
+        document.getElementById("btnLookup").innerText = data.buttonLookup;
+        document.getElementById("js-error-message").innerText = data.errorOccurred;
+       //document.getElementById("message-body-text").innerHTML = data.introText;
+        document.getElementById("message-body-text").innerHTML = data.text1 + data.text2 + data.text3 + data.text4 + data.text5 + data.text6
+        document.getElementById("message-body-examples").innerText = data.examples;
+        // osv. – legg til flere om nødvendig
+      })
+      .catch(error => {
+        console.error("Failed to load language file:", error);
+      });
+  }
+</script>
 </head>
 <body class="content">
   <section class="hero is-primary">
     <div class="hero-body">
-      <p class="title">Nordic Smart Government & Business Lookup</p>
-      <p class="subtitle">data.altinn.no</p>
+      <p class="title" id="title">Nordic Smart Government & Business Lookup</p>
+      <p class="subtitle" id="subtitle">data.altinn.no</p>
+      <div class="select is-small is-pulled-right">
+        <select id="languageSelect">
+          <option value="en">English</option>
+          <option value="no">Norsk</option>         
+        </select>
+      </div>
     </div>
   </section>
 
   <div class="hero-body">
     <article class="message">
-      <div class="message-body">
-        <p>This is a proof-of-concept using <a href="https://data.altinn.no">data.altinn.no</a> to acquire information about businesses from national registries, mapping them to the <a href="https://tietomallit.suomi.fi/model/agent3/">Agent-based Nordic Business Data Model</a>.</p>
-        <p>Input is a country code and the business identifier, separated by a colon, i.e. NO:991825827. There are ready-made examples below.</p><br></br>
-        <p>In order to obtain your own apikey, just register at data.altinn.no and make a subscription to the NSG product - the process is described <a href="https://docs.data.altinn.no/api/#registrere-konto-og-skaffe-api-n%C3%B8kkel">here</a></p>
-      </div>
+      <div class="message-body" id="message-body-text">
+        
+        </div>
+        <div class="message-body" id="message-body-examples">
+        <p> 
+          <small><em>Examples: 
+          </div>
+          <div class="message-body" id="example-list">
+            <a href="javascript:;" class="js-example">NO:991825827</a> 
+            <a href="javascript:;" class="js-example">NO:992119500</a>
+            <a href="javascript:;" class="js-example">FI:1558237-3</a>
+            <a href="javascript:;" class="js-example">FI:1958763-0</a>
+            <a href="javascript:;" class="js-example">SE:556810-8988</a>
+            <a href="javascript:;" class="js-example">IS:5402696029</a>
+          </div>
+          </em></small>
+        </p>
+    
     </article>
 
     <div class="field is-medium">
-      <label class="label">Enter a business-ID</label>
+      <label class="label" id="label-business-id">Enter a business-ID</label>
       <div class="control">
-        <input class="input is-medium" id="txtBusinessId" type="text" placeholder="0192:991825827">
+        <input class="input is-medium" id="txtBusinessId" type="text" placeholder="NO:991825827">
       </div>
     </div>
 
     <div class="field is-medium">
-      <label class="label">Enter your apikey</label>
+      <label class="label" id="label-apikey">Enter your apikey</label>
       <div class="control">
         <input class="input is-medium" id="txtApiKey" type="text" placeholder="guid">
       </div>
@@ -51,17 +107,6 @@
       <button class="button is-primary is-medium" id="btnLookup">Look up</button>
     </div>
 
-    <p> 
-      <small><em>Examples: 
-        <a href="javascript:;" class="js-example">NO:991825827</a>, 
-        <a href="javascript:;" class="js-example">NO:992119500</a>,
-        <a href="javascript:;" class="js-example">FI:1558237-3</a>,
-        <a href="javascript:;" class="js-example">FI:1958763-0</a>,
-        <a href="javascript:;" class="js-example">SE:556810-8988</a>,
-        <a href="javascript:;" class="js-example">IS:5402696029</a>
-      </em></small>
-    </p>
-
     <section class="columns result">
       <div id="js-result-formatted" class="column js-result formatted-result"></div>
       <div id="js-result-source" class="column js-result formatted-source"><pre></pre></div>                
@@ -69,7 +114,7 @@
 
     <div id="js-result-error" class="js-result error-result">
       <article class="message is-danger">
-        <div class="message-body">
+        <div class="message-body" id="message-body-error">
           An error occurred: <span id="js-error-message"></span>
         </div>
       </article>
@@ -78,7 +123,7 @@
     <div id="js-loader">
       <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
-
+  </div>
     <!--<div class="diagram">
       <img src="/gfx/diagram.svg" alt="Diagram">
     </div>

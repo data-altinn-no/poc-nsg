@@ -1,0 +1,16 @@
+{
+    "title": "Nordic Smart Government & Business Lookup",
+    "subtitle": "data.altinn.no",
+    "introText": "<p>This is a proof-of-concept using <a href='https://data.altinn.no'>data.altinn.no</a> to acquire information about businesses from national registries, mapping them to the <a href='https://tietomallit.suomi.fi/model/agent3/'>Agent-based Nordic Business Data Model</a>.</p> <p>Input is a country code and the business identifier, separated by a colon, i.e. NO:991825827. There are ready-made examples below.</p><br></br><p>In order to obtain your own apikey, just register at data.altinn.no and make a subscription to the NSG product - the process is described <a href='https://docs.data.altinn.no/api/#registrere-konto-og-skaffe-api-n%C3%B8kkel'>here</a></p>",
+    "labelBusinessId": "Enter a business-ID",
+    "labelApiKey": "Enter your apikey",
+    "buttonLookup": "Look up",
+    "errorOccurred": "An error occurred:",
+    "examples" : "Examples",
+    "text1" : "Search for information about businesses in Sweden, Finland, Iceland and Norway. <br></br>",
+    "text2" : "Searchable registries are the Swedish Bolagsverket, the Finnish Trade Register (PRH), the Icelandic Skatturinn and the Norwegian Registry Centre (Brønnøysundregistrene).<br></br>",
+    "text3" : "In order to be able to search for businesses, you will have to acquire an apikey at <a href=https://data.altinn.no>data.altinn.no</a> and use that in the apikey field.<br></br>",
+    "text4" : "The search box requires a country code and organisation number separated by a colon. <br></br>",
+    "text5" : "The status field will display one of two codes: None or some. The value none indicates no further checks are required. The value 'some' requires you to contact the registry agency in the business' home country for further information.<br></br>",
+    "text6" : "For Icelandic businesses the status will only show either (1-active) or (2-inactive)."
+  }

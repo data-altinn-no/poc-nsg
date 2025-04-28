@@ -1,0 +1,16 @@
+{
+    "title": "Nordic Smart Government & Business-oppslag",
+    "subtitle": "data.altinn.no",
+    "introText":  "<p>Dette er en demonstrasjonsside som bruker <a href='https://data.altinn.no'>data.altinn.no</a> til å hente virksomhetsinformasjon fra nasjonale registre i Norge, Sverige, Finland og Island og mapper dem til en <a href='https://tietomallit.suomi.fi/model/agent3/'>Agent-based Nordic Business Data Model</a>.</p> <p>Oppgi landkode:virksomhetsidentifikator, som for eksempel no:991825827 eller klikk på eksemplene nedenfor.</p><br></br><p>For å få tak i api-nøkkel må du registrere deg på data.altinn.no and og be om tilgang til NSG-produktet - som beskrevet <a href='https://docs.data.altinn.no/api/#registrere-konto-og-skaffe-api-n%C3%B8kkel'>her.</a></p>",
+    "labelBusinessId": "Skriv inn organisasjonsnummer",
+    "labelApiKey": "Skriv inn apinøkkel",
+    "buttonLookup": "Søk",
+    "errorOccurred": "En feil oppstod:",
+    "examples" : "Eksempler",
+    "text1" : "Her kan du finne et utvalg av opplysninger om virksomheter fra Sverige, Finland, Island og Norge. <br></br>",
+    "text2" : "Virksomheter du kan søke opp er registrert, enten hos det svenske Bolagsverket, det finske Finnish Trade Register - PRH, det islandske Skatturinn og Brønnøysundregistrene i Norge.<br></br>",
+    "text3" : "For å søke i løsningen må du hente en API-nøkkel på <a href=https://data.altinn.no>data.altinn.no</a>. Denne legger du inn i feltet for API-nøkkel.<br></br>",
+    "text4" : "I søkefeltet for organisasjonsnummeret (ID-nummer) må du legge inn landkode og med kolon mellom. <br></br>",
+    "text5" : "I status feltet vil det være 2 koder: None-ingen og den andre er some-noe. Får du verdien (none) trenger du ikke sjekke videre status på nåværende tidspunkt. Ved svaret (some), bør du ta kontakt med register enheten i det landet virksomheten er registrert. Her vil du få nærmere informasjon om hva statusen innebærer.<br></br>",
+    "text6" : "På Islandske virksomheter vil statusen være (1-active) eller (2-inactive)."
+  }

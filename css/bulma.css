@@ -3548,7 +3548,7 @@ fieldset[disabled] .radio,
 .select select {
   cursor: pointer;
   display: block;
-  font-size: 1em;
+  font-size: 1.2em;
   max-width: 100%;
   outline: none;
 }
