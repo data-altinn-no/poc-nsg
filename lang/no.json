@@ -9,7 +9,7 @@
     "examples" : "Eksempler",
     "text1" : "Her kan du finne et utvalg av opplysninger om virksomheter fra Sverige, Finland, Island og Norge. <br></br>",
     "text2" : "Virksomheter du kan søke opp er registrert, enten hos det svenske Bolagsverket, det finske Finnish Trade Register - PRH, det islandske Skatturinn og Brønnøysundregistrene i Norge.<br></br>",
-    "text3" : "For å søke i løsningen må du hente en API-nøkkel på <a href=https://data.altinn.no>data.altinn.no</a>. Denne legger du inn i feltet for API-nøkkel.<br></br>",
+    "text3" : "For å søke i løsningen må du hente en API-nøkkel på <a href=https://data.altinn.no target='blank'>data.altinn.no</a>. Denne legger du inn i feltet for API-nøkkel.<br></br>",
     "text4" : "I søkefeltet for organisasjonsnummeret (ID-nummer) må du legge inn landkode og med kolon mellom. <br></br>",
     "text5" : "I status feltet vil det være 2 koder: None-ingen og den andre er some-noe. Får du verdien (none) trenger du ikke sjekke videre status på nåværende tidspunkt. Ved svaret (some), bør du ta kontakt med register enheten i det landet virksomheten er registrert. Her vil du få nærmere informasjon om hva statusen innebærer.<br></br>",
     "text6" : "På Islandske virksomheter vil statusen være (1-active) eller (2-inactive)."

@@ -9,7 +9,7 @@
     "examples" : "Examples",
     "text1" : "Search for information about businesses in Sweden, Finland, Iceland and Norway. <br></br>",
     "text2" : "Searchable registries are the Swedish Bolagsverket, the Finnish Trade Register (PRH), the Icelandic Skatturinn and the Norwegian Registry Centre (Brønnøysundregistrene).<br></br>",
-    "text3" : "In order to be able to search for businesses, you will have to acquire an apikey at <a href=https://data.altinn.no>data.altinn.no</a> and use that in the apikey field.<br></br>",
+    "text3" : "In order to be able to search for businesses, you will have to acquire an apikey at <a href=https://data.altinn.no  target='blank'>data.altinn.no</a> and use that in the apikey field.<br></br>",
     "text4" : "The search box requires a country code and organisation number separated by a colon. <br></br>",
     "text5" : "The status field will display one of two codes: None or some. The value none indicates no further checks are required. The value 'some' requires you to contact the registry agency in the business' home country for further information.<br></br>",
     "text6" : "For Icelandic businesses the status will only show either (1-active) or (2-inactive)."
