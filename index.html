@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NSG-DAN POC</title>
+  <title>NSG Business Lookup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bulma.css">
   <link rel="stylesheet" href="css/poc.css">
@@ -12,7 +12,7 @@
   <script src="js/page.js"></script>
 
   <script>
-    if (window.location.host.includes("azurestaticapps.net")) {
+    if (window.location.host.includes("azurestaticapps.net") || (window.location.host.includes('nsg-dan-poc'))) {
       window.location = "https://nsg.data.altinn.no/?lang=no";
     }
 
@@ -43,8 +43,9 @@
         document.getElementById("btnLookup").innerText = data.buttonLookup;
         document.getElementById("js-error-message").innerText = data.errorOccurred;
        //document.getElementById("message-body-text").innerHTML = data.introText;
-        document.getElementById("message-body-text").innerHTML = data.text1 + data.text2 + data.text3 + data.text4 + data.text5 + data.text6
+        document.getElementById("message-body-text").innerHTML = data.text1 + data.text2 + data.text3 + data.text4 + data.text5 //+ data.text6
         document.getElementById("message-body-examples").innerText = data.examples;
+        document.getElementById("links-label").innerText = data.links;
         // osv. – legg til flere om nødvendig
       })
       .catch(error => {
@@ -88,7 +89,12 @@
         </p>
     
     </article>
-
+    <div class="field is-medium">
+      <label class="label" id="label-apikey">Enter your apikey</label>
+      <div class="control">
+        <input class="input is-medium" id="txtApiKey" type="text" placeholder="guid">
+      </div>
+    </div>    
     <div class="field is-medium">
       <label class="label" id="label-business-id">Enter a business-ID</label>
       <div class="control">
@@ -96,12 +102,7 @@
       </div>
     </div>
 
-    <div class="field is-medium">
-      <label class="label" id="label-apikey">Enter your apikey</label>
-      <div class="control">
-        <input class="input is-medium" id="txtApiKey" type="text" placeholder="guid">
-      </div>
-    </div>           
+       
 
     <div class="control">
       <button class="button is-primary is-medium" id="btnLookup">Look up</button>
@@ -129,11 +130,15 @@
     </div>
   -->
     <footer>
-      <h4>Links</h4>
-      <ul>
-        <li><a href="https://github.com/data-altinn-no/poc-nsg/">Source for this page</a></li>
+   
+        <label class="label" id="links-label">Links</label>
+      <ul>      
         <li><a href="https://github.com/data-altinn-no/dan-plugin-nsg/">DAN NSG plugin</a></li>
+        <li><a href="https://docs.data.altinn.no/api/">Api</a></li>
+        <li><a href="https://docs.data.altinn.no/api/">NSG Api Specification</a></li>
+        <li><a href="https://www.brreg.no/bruke-data-fra-bronnoysundregistrene/datasett-og-api/">Brønnøysundregistrene </a></li>
       </ul>
+  
     </footer>
   </div>
 </body>

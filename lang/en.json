@@ -7,10 +7,10 @@
     "buttonLookup": "Look up",
     "errorOccurred": "An error occurred:",
     "examples" : "Examples",
-    "text1" : "Search for information about businesses in Sweden, Finland, Iceland and Norway. <br></br>",
-    "text2" : "Searchable registries are the Swedish Bolagsverket, the Finnish Trade Register (PRH), the Icelandic Skatturinn and the Norwegian Registry Centre (Brønnøysundregistrene).<br></br>",
-    "text3" : "In order to be able to search for businesses, you will have to acquire an apikey at <a href=https://data.altinn.no  target='blank'>data.altinn.no</a> and use that in the apikey field.<br></br>",
-    "text4" : "The search box requires a country code and organisation number separated by a colon. <br></br>",
-    "text5" : "The status field will display one of two codes: None or some. The value none indicates no further checks are required. The value 'some' requires you to contact the registry agency in the business' home country for further information.<br></br>",
-    "text6" : "For Icelandic businesses the status will only show either (1-active) or (2-inactive)."
+    "text1" : "Data on organisations from Sweden, Finland, Iceland, and Norway. <br></br>",
+    "text2" : "You can search for organisations registered in <ul><li><a href='https://www.bolagsverket.se/en/1.html' target='blank'>the Swedish Companies Registration Office, country code SE</a></li><li><a href='https://www.prh.fi/en/' target='blank'>the Finnish Trade Register – PRH, country code FI</a></li><li><a href='https://www.skatturinn.is/english/' target='blank'>Iceland Revenue and Customs, country code IS</a></li><li><a href='https://www.brreg.no/' target='blank'>the Norwegian Brønnøysund Registry Centre, country code NO</a></li></ul><br>",
+    "text3" : "To use the search service, you must obtain an API key from <a href='https://docs.data.altinn.no/api' target='blank'>data.altinn.no</a>.</br>",
+    "text4" : "There are two status codes for Sweden, Finland, and Norway: <ul><li>None <br> No need to check further status</li><li>Some <br>Please contact the registry in the country where the organisation is registered for more information about the status.</li></ul> ",
+    "text5" : "Icelandic organisations have two statuses: 1 – active  and  2 – inactive.</br>",   
+    "links" : "Links"
   }
