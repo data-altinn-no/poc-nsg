@@ -10,7 +10,7 @@
     "text1" : "Data om virksomheter fra Sverige, Finland, Island og Norge. <br></br>",
     "text2" : "Du kan søke opp virksomheter som er registrert i <ul><li><a href='https://www.bolagsverket.se/' target='blank'>svenske Bolagsverket, med landkode SE</a></li><li><a href='https://www.prh.fi/en/' target='blank'>finske Finnish Trade Register – PRH, med landkode FI</a></li><li><a href='https://www.skatturinn.is/english/' target='blank'>islandske Skatturinn, med landkode IS</a></li><li><a href='https://www.brreg.no/' target='blank'>norske Brønnøysundregistrene, med landkode NO</a></li></ul><br>",
     "text3" : "For å søke i løsningen må du hente en API-nøkkel for NSG på <a href='https://docs.data.altinn.no/api/' target='blank'>data.altinn.no</a>.<br></br>",
-    "text4" : "I statusfeltet for Sverige, Finland og Norge er det to koder:  <ul><li>None-ingen <br> Da trenger du ikke sjekke videre status</li><li>Some-noe <br>Ta kontakt med registeret i landet virksomheten er registrert for å få nærmere informasjon om hva statusen betyr. </li></ul> ",
-    "text5" : "Islandske virksomheter har statusene 1-active eller 2-inactive.<br>",   
+    "text4" : "I statusfeltet for Sverige, Finland og Norge er det to koder:  <ul><li>None-ingen <br> Da trenger du ikke sjekke videre status</li><li>Some-noe <br>Ta kontakt med registeret i landet virksomheten er registrert for å få nærmere informasjon om hva statusen betyr. </li></ul></br> ",
+    "text5" : "Islandske virksomheter har statusene 1-active eller 2-inactive.",   
     "links" : "Lenker"
   }
