@@ -46,6 +46,7 @@
         document.getElementById("message-body-text").innerHTML = data.text2 + data.text3 + data.text4 + data.text5 //+ data.text6
         document.getElementById("examples-label").innerText = data.examples;
         document.getElementById("links-label").innerText = data.links;
+        document.getElementById("contact-label").innerText = data.contact
         // osv. – legg til flere om nødvendig
       })
       .catch(error => {
@@ -132,6 +133,16 @@
         <li><a href="https://docs.data.altinn.no/api/">Api</a></li>
         <li><a href="https://docs.data.altinn.no/api/">NSG Api Specification</a></li>
         <li><a href="https://www.brreg.no/bruke-data-fra-bronnoysundregistrene/datasett-og-api/">Brønnøysundregistrene </a></li>
+      </ul>
+
+      <label class="label" id="contact-label">Kontakt</label>
+      <ul>            
+        <li><a href="mailto:dan@altinn.no">data.altinn.no </a></li>
+        <li><a href="mailto:post@brreg.no">Brønnøysundregistrene </a></li>
+        <li><a href="mailto:tba">Skatturinn</a></li>
+        <li><a href="mailto:tba">Bolagsverket</a></li>
+        <li><a href="mailto:tba">Finnish Trade Register </a></li>        
+        <li><a href="https://join.slack.com/t/altinn/shared_invite/zt-2yp202pnk-PXnfUDQICM3PFDPXfehGiQ">NSG/data.altinn.no@slack</a></li>
       </ul>
   
     </footer>

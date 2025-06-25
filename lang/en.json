@@ -9,8 +9,9 @@
     "examples" : "Examples:",
     "text1" : "Data on organisations from Sweden, Finland, Iceland, and Norway. <br></br>",
     "text2" : "You can search for organisations registered in <ul><li><a href='https://www.bolagsverket.se/en/1.html' target='blank'>the Swedish Companies Registration Office, country code SE</a></li><li><a href='https://www.prh.fi/en/' target='blank'>the Finnish Trade Register – PRH, country code FI</a></li><li><a href='https://www.skatturinn.is/english/' target='blank'>Iceland Revenue and Customs, country code IS</a></li><li><a href='https://www.brreg.no/' target='blank'>the Norwegian Brønnøysund Registry Centre, country code NO</a></li></ul><br>",
-    "text3" : "To use the search service, you must obtain an API key from <a href='https://docs.data.altinn.no/api' target='blank'>data.altinn.no</a>.</br>",
+    "text3" : "To use the search service, you must obtain an API key from <a href='https://data.altinn.no/product#product=nsg-product' target='blank'>data.altinn.no</a>.</br>",
     "text4" : "There are two status codes for Sweden, Finland, and Norway: <ul><li>None <br> No need to check further status</li><li>Some <br>Please contact the registry in the country where the organisation is registered for more information about the status.</li></ul></br>",
     "text5" : "Icelandic organisations have two statuses: 1 – active  and  2 – inactive.",   
-    "links" : "Links"
+    "links" : "Links", 
+    "contact" : "Contact information"
   }
