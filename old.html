@@ -3,7 +3,7 @@
     <meta charset="utf8">
     <head>
         <script>
-            if (window.location.host.includes("azurestaticapps.net")) {
+            if (window.location.host.endsWith(".azurestaticapps.net") || window.location.host === "azurestaticapps.net") {
                 window.location = "https://nsg-dan-poc.data.altinn.no/";
             }
         </script>

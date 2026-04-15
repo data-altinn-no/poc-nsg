@@ -16,11 +16,11 @@ $(window).on("load", function() {
 
         $btn.attr("disabled", "disabled");
 
-        console.log("country " + country + " identifier " + identifier + " apikey " + apikey);
+        console.log("country " + country + " identifier " + identifier);
         $(".js-result").hide();
         $("#js-loader").show();
 
-        if (country === undefined || identifier === undefined || apikey === undefined)
+        if (!country || !identifier || !apikey || country.trim() === '' || identifier.trim() === '')
             {
                 $("#js-error-message").text("Invalid identifier or missing/invalid apikey");
                 $("#js-result-error").show();
@@ -42,7 +42,13 @@ $(window).on("load", function() {
                   })
                   .fail(function(r) {
                     console.log(r);
-                    $("#js-error-message").text(r.responseJSON.detailDescription === undefined ? r.responseJSON.description : r.responseJSON.detailDescription);
+                    var errorMsg = "An error occurred";
+                    if (r.responseJSON) {
+                        errorMsg = r.responseJSON.detailDescription || r.responseJSON.description || errorMsg;
+                    } else if (r.statusText) {
+                        errorMsg = r.statusText;
+                    }
+                    $("#js-error-message").text(errorMsg);
                     $("#js-result-error").show();
                 })
                   .always(function() {
@@ -50,7 +56,7 @@ $(window).on("load", function() {
                     $("#js-loader").hide();
                 }).done(function(r) {
                     $("#js-result-formatted").html(getFormatResultHtml(r));
-                    $("#js-result-source > pre").html(`POST <a href="${url}">${url}</a>\n <br>Body: ${syntaxHighlight(body, null, 4)} <br></br> ${syntaxHighlight(JSON.stringify(r, null, 4))}`);
+                    $("#js-result-source > pre").html(`POST <a href="${escapeHtml(url)}">${escapeHtml(url)}</a>\n <br>Body: ${syntaxHighlight(body)} <br></br> ${syntaxHighlight(JSON.stringify(r, null, 4))}`);
                     $("#js-result-formatted").show();
                     $("#js-result-source").show();
                 });
@@ -59,6 +65,15 @@ $(window).on("load", function() {
 
 });
 
+function escapeHtml(text) {
+    if (text == null) return '';
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 function syntaxHighlight(json) {
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -84,39 +99,39 @@ function getFormatResultHtml(r) {
     if (r.instance !== undefined)
     {
         console.log("Error: " + r.instance);
-        result = `<div class="bg"><div style="background-image:url('/gfx/${getFlagPng($("#txtBusinessId").val().replace(/\s/, ""))}')"></div></div>`;
+        var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>`;
     } else  {   
     var result = `
-    <div class="bg"><div style="background-image:url('/gfx/${getFlagPng($("#txtBusinessId").val().replace(/\s/, ""))}')"></div></div>
-    <h2>${r.name}</h2>
-    <small>Company-ID: ${r.identifier.notation}</small>
+    <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>
+    <h2>${escapeHtml(r.name)}</h2>
+    <small>Company-ID: ${escapeHtml(r.identifier.notation)}</small>
     <dl>
     `;
 
     if (r.registrationDate != null) {
-        result += `<dt>Founded:</dt><dd>${formatDate(r.registrationDate)}</dd>`;
+        result += `<dt>Founded:</dt><dd>${escapeHtml(formatDate(r.registrationDate))}</dd>`;
     }
 
     if (r.addresses?.postalAddress?.fullAddress !== undefined) {
         result += "<dt>Address:</dt><dd>";
-        result += r.addresses.postalAddress.fullAddress.split(';').join('<br>');
+        result += escapeHtml(r.addresses.postalAddress.fullAddress).split('&lt;').join('<').split('&gt;').join('>').split(';').join('<br>');
         result += "</dd>";
     }
 
     if (r.legalform?.name !== undefined)
     {
         result += "<dt>Organisation form:</dt><dd>";
-        result += r.legalform?.name;
+        result += escapeHtml(r.legalform?.name);
         result += "</dd>";
     }
 
     if (r.legalStatus?.name !== undefined)
         {
             result += "<dt>Status code:</dt><dd>";
-            result += r.legalStatus?.code;
+            result += escapeHtml(r.legalStatus?.code);
             result += "</dd>";
             result += "<dt>Status detail:</dt><dd>"
-            result +=  r.legalStatus?.name;
+            result +=  escapeHtml(r.legalStatus?.name);
             result += "</dd>";
         }
     }

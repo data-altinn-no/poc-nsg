@@ -39,6 +39,8 @@ jobs:
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     name: Close Pull Request Job
     steps:
       - name: Close Pull Request

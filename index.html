@@ -12,7 +12,8 @@
   <script src="js/page.js"></script>
 
   <script>
-    if (window.location.host.includes("azurestaticapps.net") || (window.location.host.includes('nsg-dan-poc'))) {
+    if (window.location.host.endsWith(".azurestaticapps.net") || window.location.host === "azurestaticapps.net" || 
+        window.location.host.endsWith(".nsg-dan-poc") || window.location.host === "nsg-dan-poc") {
       window.location = "https://nsg.data.altinn.no/?lang=no";
     }
 
@@ -32,6 +33,24 @@
     }
   });
 
+  function sanitizeHtml(html) {
+    const div = document.createElement('div');
+    div.textContent = html;
+    let sanitized = div.innerHTML;
+    
+    // Allow only specific safe tags that are used in language files
+    const allowedTags = ['a', 'br', 'ul', 'li', 'p'];
+    const allowedAttrs = ['href', 'target'];
+    
+    // Simple regex-based approach for known safe content
+    // This is safe because we control the language JSON files
+    sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '');
+    sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+    sanitized = sanitized.replace(/javascript:/gi, '');
+    
+    return sanitized;
+  }
+
   function loadLanguage(lang) {
     fetch(`lang/${lang}.json`)
       .then(response => response.json())
@@ -43,7 +62,7 @@
         document.getElementById("btnLookup").innerText = data.buttonLookup;
         document.getElementById("js-error-message").innerText = data.errorOccurred;
        //document.getElementById("message-body-text").innerHTML = data.introText;
-        document.getElementById("message-body-text").innerHTML = data.text2 + data.text3 + data.text4 + data.text5 //+ data.text6
+        document.getElementById("message-body-text").innerHTML = sanitizeHtml(data.text2 + data.text3 + data.text4 + data.text5); //+ data.text6
         document.getElementById("examples-label").innerText = data.examples;
         document.getElementById("links-label").innerText = data.links;
         document.getElementById("contact-label").innerText = data.contact
