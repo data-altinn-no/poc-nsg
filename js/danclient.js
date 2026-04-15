@@ -1,5 +1,6 @@
 $(window).on("load", function() {
     $(".js-example").on("click", function(e) {
+        e.preventDefault();
         $("#txtBusinessId").val(e.target.innerText);
     })
 
