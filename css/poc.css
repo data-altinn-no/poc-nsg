@@ -132,13 +132,21 @@ footer {
 .formatted-source .null { color: magenta; }
 .formatted-source .key { color: red; }
 
-.formatted-result { max-width: 40rem; display: none; position: relative; overflow: hidden; }
-.formatted-result small { margin: -1rem 0 1rem; display: block; }
-.formatted-result dl { display: flex; flex-wrap: wrap; font-size: 1.3rem}
-.formatted-result dt { width: 33%; }
-.formatted-result dd { margin-left: auto; width: 66%; font-weight: bold; }
+.formatted-result { max-width: 40rem; display: none; position: relative; overflow: hidden; font-size: 1rem; }
+.formatted-result h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.formatted-result small { margin: -1rem 0 1rem; display: block; font-size: 0.95rem; }
+.formatted-result dl { display: flex; flex-wrap: wrap; font-size: 1rem; }
+.formatted-result dt { width: 33%; font-size: 1rem; }
+.formatted-result dd { margin-left: auto; width: 66%; font-weight: bold; font-size: 1rem; }
+/* Nøytraliser den globale small-stilen når small står inne i dd (f.eks. legal form code) */
+.formatted-result dd small { display: inline; margin: 0; font-size: 0.85rem; font-weight: normal; color: #666; }
 .formatted-result .bg { position: absolute; right: 0; top: 0; }
-.formatted-result .bg div { width: 250px; height: 250px; z-index: -1; position: relative; opacity: .2; margin: -4rem}
+.formatted-result .bg div { width: 250px; height: 250px; z-index: -1; position: relative; opacity: .2; margin: -4rem }
+
+/* Activity codes list (FEIL-004) */
+.formatted-result .activity-list { list-style: none; margin: 0; padding: 0; }
+.formatted-result .activity-list li { display: inline-block; margin: 0 0.4rem 0.2rem 0; }
+.formatted-result .activity-list a { text-decoration: underline; }
 
 .error-result { display: none; margin-bottom: 2rem; }
 
