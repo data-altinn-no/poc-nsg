@@ -161,7 +161,6 @@ function getFormatResultHtml(r) {
         result += "</dd>";
     }
 
-    // FEIL-004: vis også aktivitets-koder (NACE) hvis noen er returnert
     if (Array.isArray(r.activity) && r.activity.length > 0) {
         result += "<dt>Activity codes (NACE):</dt><dd><ul class='activity-list'>";
         r.activity.forEach(function (act) {
