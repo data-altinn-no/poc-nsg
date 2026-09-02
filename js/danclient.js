@@ -45,7 +45,16 @@ $(window).on("load", function() {
                     console.log(r);
                     var errorMsg = "An error occurred";
                     if (r.responseJSON) {
-                        errorMsg = r.responseJSON.detailDescription || r.responseJSON.description || errorMsg;
+                        // NSG-standard error body: { "detail": "...", "title": "...", "status": ... }
+                        // Fallback via legacy-feltnavn hvis andre backend-versjoner brukes.
+                        errorMsg = r.responseJSON.detail
+                                || r.responseJSON.detailDescription
+                                || r.responseJSON.description
+                                || r.responseJSON.title
+                                || errorMsg;
+                        if (r.status) {
+                            errorMsg = "HTTP " + r.status + ": " + errorMsg;
+                        }
                     } else if (r.statusText) {
                         errorMsg = r.statusText;
                     }
@@ -101,42 +110,78 @@ function getFormatResultHtml(r) {
     {
         console.log("Error: " + r.instance);
         var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>`;
-    } else  {   
+        return result;
+    }
+
     var result = `
     <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>
     <h2>${escapeHtml(r.name)}</h2>
-    <small>Company-ID: ${escapeHtml(r.identifier.notation)}</small>
+    <small>Legal Identifier: ${escapeHtml(r.identifier?.notation)}</small>
     <dl>
     `;
 
+    if (r.identifier?.issuingAuthorityName) {
+        result += `<dt>Issuing authority:</dt><dd>${escapeHtml(r.identifier.issuingAuthorityName)}</dd>`;
+    }
+
     if (r.registrationDate != null) {
-        result += `<dt>Founded:</dt><dd>${escapeHtml(formatDate(r.registrationDate))}</dd>`;
+        result += `<dt>Registration Date:</dt><dd>${escapeHtml(formatDate(r.registrationDate))}</dd>`;
     }
 
-    if (r.addresses?.postalAddress?.fullAddress !== undefined) {
-        result += "<dt>Address:</dt><dd>";
-        result += escapeHtml(r.addresses.postalAddress.fullAddress).split('&lt;').join('<').split('&gt;').join('>').split(';').join('<br>');
+    // NB: API-en har `postalAddress` og `registeredAddress` på topp-nivå (ikke under `addresses`).
+    if (r.postalAddress?.fullAddress) {
+        result += "<dt>Postal address:</dt><dd>";
+        result += formatAddress(r.postalAddress.fullAddress);
         result += "</dd>";
     }
 
-    if (r.legalform?.name !== undefined)
-    {
-        result += "<dt>Organisation form:</dt><dd>";
-        result += escapeHtml(r.legalform?.name);
+    if (r.registeredAddress?.fullAddress) {
+        result += "<dt>Registered address:</dt><dd>";
+        result += formatAddress(r.registeredAddress.fullAddress);
         result += "</dd>";
     }
 
-    if (r.legalStatus?.name !== undefined)
-        {
-            result += "<dt>Status code:</dt><dd>";
-            result += escapeHtml(r.legalStatus?.code);
-            result += "</dd>";
-            result += "<dt>Status detail:</dt><dd>"
-            result +=  escapeHtml(r.legalStatus?.name);
-            result += "</dd>";
+    if (r.legalform?.name || r.legalform?.code) {
+        result += "<dt>Legal form:</dt><dd>";
+        result += escapeHtml(r.legalform?.name || "");
+        if (r.legalform?.code) {
+            result += ` <small>(${escapeHtml(r.legalform.code)})</small>`;
         }
+        result += "</dd>";
     }
+
+    if (r.legalStatus?.code) {
+        result += "<dt>Legal status code:</dt><dd>";
+        result += escapeHtml(r.legalStatus.code);
+        result += "</dd>";
+    }
+    if (r.legalStatus?.name) {
+        result += "<dt>Legal status description:</dt><dd>";
+        result += escapeHtml(r.legalStatus.name);
+        result += "</dd>";
+    }
+
+    if (Array.isArray(r.activity) && r.activity.length > 0) {
+        result += "<dt>Activity codes (NACE):</dt><dd><ul class='activity-list'>";
+        r.activity.forEach(function (act) {
+            var line = escapeHtml(act.code);
+            if (act.reference) {
+                line = `<a href="${escapeHtml(act.reference)}" target="_blank" rel="noopener">${line}</a>`;
+            }
+            result += `<li>${line}</li>`;
+        });
+        result += "</ul></dd>";
+    }
+
+    result += "</dl>";
     return result;
+}
+
+// Deler adressen på semikolon (NSG-standard) og viser hver del på ny linje.
+function formatAddress(addr) {
+    if (addr == null) return '';
+    // Escape først, split på semikolon (både ren og escaped-variant), join med <br>
+    return escapeHtml(addr).split(';').join('<br>');
 }
 
 function ein(v, a) { //empty-if-null
