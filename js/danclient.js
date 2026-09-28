@@ -178,17 +178,17 @@ function getFormatResultHtml(r) {
 }
 
 // Deler adressen på semikolon (NSG-standard) og viser hver del på ny linje.
+// Split FØR escape så vi ikke knuser HTML-entiteter
 function formatAddress(addr) {
     if (addr == null) return '';
-    // Escape først, split på semikolon (både ren og escaped-variant), join med <br>
-    return escapeHtml(addr).split(';').join('<br>');
+    return String(addr).split(';').map(escapeHtml).join('<br>');
 }
 
 // Aggregerte legal names (svenske sole traders) er semikolon-separert og kan bli veldig lange.
-// Split på semikolon slik at hvert navn vises på egen linje i venstre-visning.
+// Split på semikolon FØR escape så vi ikke deler opp HTML-entiteter
 function formatLongName(name) {
     if (name == null) return '';
-    return escapeHtml(name).split(';').join('<br>');
+    return String(name).split(';').map(escapeHtml).join('<br>');
 }
 
 function ein(v, a) { //empty-if-null
