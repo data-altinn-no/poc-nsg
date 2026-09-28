@@ -115,7 +115,7 @@ function getFormatResultHtml(r) {
 
     var result = `
     <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>
-    <h2>${escapeHtml(r.name)}</h2>
+    <h2>${formatLongName(r.name)}</h2>
     <small>Legal Identifier: ${escapeHtml(r.identifier?.notation)}</small>
     <dl>
     `;
@@ -182,6 +182,13 @@ function formatAddress(addr) {
     if (addr == null) return '';
     // Escape først, split på semikolon (både ren og escaped-variant), join med <br>
     return escapeHtml(addr).split(';').join('<br>');
+}
+
+// Aggregerte legal names (svenske sole traders) er semikolon-separert og kan bli veldig lange.
+// Split på semikolon slik at hvert navn vises på egen linje i venstre-visning.
+function formatLongName(name) {
+    if (name == null) return '';
+    return escapeHtml(name).split(';').join('<br>');
 }
 
 function ein(v, a) { //empty-if-null
