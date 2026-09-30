@@ -116,8 +116,8 @@ function getFormatResultHtml(r) {
     var result = `
     <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>
     <h2>${formatLongName(r.name)}</h2>
-    <small>Legal Identifier: ${escapeHtml(r.identifier?.notation)}</small>
     <dl>
+    <dt>Legal Identifier:</dt><dd>${escapeHtml(r.identifier?.notation)}</dd>    
     `;
 
     if (r.identifier?.issuingAuthorityName) {
