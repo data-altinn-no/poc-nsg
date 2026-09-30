@@ -136,7 +136,7 @@ footer {
 .formatted-source .key { color: red; }
 
 .formatted-result { max-width: 40rem; display: none; position: relative; overflow: hidden; font-size: 1rem; }
-#js-result-formatted > * { margin-left: 2rem !important; margin-right: 2rem !important; }
+#js-result-formatted > * { margin-left: 2rem !important; }
 /* Store, aggregerte navn (svenske sole traders med flere trade names) kan bli lange.
    Tillat linjeskift og myke brytninger så de ikke overflow-er ut av kolonnen. */
 .formatted-result h2 { font-size: 1.4rem; margin-bottom: 0.5rem; word-break: break-word; overflow-wrap: anywhere; line-height: 1.3; }
