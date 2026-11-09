@@ -21,9 +21,12 @@ $(window).on("load", function() {
             if ($("#selCountry option[value='" + code + "']").length) {
                 country = code;
                 $("#selCountry").val(code);
+                identifier = parts[1].trim();
+                $("#txtBusinessId").val(identifier);
+            } else {
+                // Ukjent landkode – avvis i stedet for å slå opp under feil land
+                country = null;
             }
-            identifier = parts[1].trim();
-            $("#txtBusinessId").val(identifier);
         }
         let id = country + ":" + identifier;
         let body = JSON.stringify({ "country": country, "notation": identifier });
@@ -82,7 +85,7 @@ $(window).on("load", function() {
                     $btn.removeAttr("disabled");
                     $("#js-loader").hide();
                 }).done(function(r) {
-                    $("#js-result-formatted").html(getFormatResultHtml(r));
+                    $("#js-result-formatted").html(getFormatResultHtml(r, country));
                     $("#js-result-source > pre").html(`POST <a href="${escapeHtml(url)}">${escapeHtml(url)}</a>\n <br>Body: ${syntaxHighlight(body)} <br></br> ${syntaxHighlight(JSON.stringify(r, null, 4))}`);
                     $("#js-result-formatted").show();
                     $("#js-result-source").show();
@@ -127,17 +130,17 @@ function syntaxHighlight(json) {
     });
 }
 
-function getFormatResultHtml(r) {
+function getFormatResultHtml(r, country) {
 
     if (r.instance !== undefined)
     {
         console.log("Error: " + r.instance);
-        var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#selCountry").val()))}')"</div></div>`;
+        var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng(country))}')"></div></div>`;
         return result;
     }
 
     var result = `
-    <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#selCountry").val()))}')"</div></div>
+    <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng(country))}')"></div></div>
     <h2>${formatLongName(r.name)}</h2>
     <dl>
     <dt>${escapeHtml(t("resultLegalIdentifier", "Legal Identifier:"))}</dt><dd>${escapeHtml(r.identifier?.notation)}</dd>    
