@@ -6,7 +6,10 @@ body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
   min-height: 100vh;
-  padding-bottom: 4rem;
+  margin: 0;
+  /* Flex-kolonne så footeren kan skyves ned til bunnen av siden */
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
@@ -50,9 +53,28 @@ body {
 }
 
 footer {
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin-top: auto;
+  /*margin-top: 3rem;
+  padding-top: 2rem;*/
+  color: white;
   border-top: 1px solid #ddd;
+  background-color: #004d80;
+}
+
+/* Gjennomsiktige kort så footerens blå bakgrunn vises */
+footer .card {
+  background-color: transparent;
+  color: white;
+  box-shadow: none;
+}
+
+footer a {
+  color: white;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #cce4f5;
 }
 
 #js-loader {
