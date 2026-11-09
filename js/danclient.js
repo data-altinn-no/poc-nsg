@@ -1,7 +1,6 @@
 $(window).on("load", function() {
     $(".js-example").on("click", function(e) {
         e.preventDefault();
-        // Eksemplene står som "NO:991825827" – fordel på landvelger og nummerfelt
         let parts = e.target.innerText.split(":");
         $("#selCountry").val(parts[0]);
         $("#txtBusinessId").val(parts[1]);
@@ -14,7 +13,6 @@ $(window).on("load", function() {
         let country = $("#selCountry").val();
         let identifier = $("#txtBusinessId").val().trim();
 
-        // Godta også det gamle formatet "NO:991825827" skrevet rett i nummerfeltet
         if (identifier.includes(":")) {
             let parts = identifier.split(":");
             let code = parts[0].trim().toUpperCase();
@@ -24,7 +22,6 @@ $(window).on("load", function() {
                 identifier = parts[1].trim();
                 $("#txtBusinessId").val(identifier);
             } else {
-                // Ukjent landkode – avvis i stedet for å slå opp under feil land
                 country = null;
             }
         }
@@ -96,7 +93,6 @@ $(window).on("load", function() {
 
 });
 
-// Henter oversatt tekst fra språkfilen som er lastet i index.html, med engelsk som reserve
 function t(key, fallback) {
     return (window.i18n && window.i18n[key]) || fallback;
 }
