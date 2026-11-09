@@ -68,6 +68,14 @@ footer .card {
   box-shadow: none;
 }
 
+/* Overskriftene i footeren skal se ut som før, selv om de nå er h2 (overstyrer .content h2 fra Bulma) */
+footer h2.card-title {
+  font-size: 1rem;
+  font-weight: normal;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
 footer a {
   color: white;
   text-decoration: underline;
@@ -151,11 +159,12 @@ footer a:hover {
 .formatted-source { padding: 0; display: none; overflow-x: auto; }
 /* La <pre> wrappe lange linjer (f.eks. aggregerte navn) og bryte ved semikolon om nødvendig */
 .formatted-source pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; margin: 0; }
-.formatted-source .string { color: green; }
-.formatted-source .number { color: darkorange; }
+/* Mørkere farger så kontrasten mot den grå pre-bakgrunnen (#f5f5f5) er minst 4,5:1 (WCAG 1.4.3) */
+.formatted-source .string { color: #007000; }
+.formatted-source .number { color: #a65200; }
 .formatted-source .boolean { color: blue; }
-.formatted-source .null { color: magenta; }
-.formatted-source .key { color: red; }
+.formatted-source .null { color: #b000b0; }
+.formatted-source .key { color: #c00000; }
 
 .formatted-result { max-width: 40rem; display: none; position: relative; overflow: hidden; font-size: 1rem; }
 #js-result-formatted > * { margin-left: 2rem !important; }
