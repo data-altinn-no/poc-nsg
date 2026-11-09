@@ -6,7 +6,9 @@ body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
   min-height: 100vh;
-  padding-bottom: 4rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
@@ -50,9 +52,32 @@ body {
 }
 
 footer {
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin-top: auto;
+  color: white;
   border-top: 1px solid #ddd;
+  background-color: #004d80;
+}
+
+footer .card {
+  background-color: transparent;
+  color: white;
+  box-shadow: none;
+}
+
+footer h2.card-title {
+  font-size: 1rem;
+  font-weight: normal;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+footer a {
+  color: white;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #cce4f5;
 }
 
 #js-loader {
@@ -129,11 +154,11 @@ footer {
 .formatted-source { padding: 0; display: none; overflow-x: auto; }
 /* La <pre> wrappe lange linjer (f.eks. aggregerte navn) og bryte ved semikolon om nødvendig */
 .formatted-source pre { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; margin: 0; }
-.formatted-source .string { color: green; }
-.formatted-source .number { color: darkorange; }
+.formatted-source .string { color: #007000; }
+.formatted-source .number { color: #a65200; }
 .formatted-source .boolean { color: blue; }
-.formatted-source .null { color: magenta; }
-.formatted-source .key { color: red; }
+.formatted-source .null { color: #b000b0; }
+.formatted-source .key { color: #c00000; }
 
 .formatted-result { max-width: 40rem; display: none; position: relative; overflow: hidden; font-size: 1rem; }
 #js-result-formatted > * { margin-left: 2rem !important; }

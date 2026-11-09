@@ -1,15 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="no">
 <head>
   <meta charset="utf-8">
   <title>NSG Business Lookup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bulma.css">
   <link rel="stylesheet" href="css/poc.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/danclient.js"></script>
   <script src="js/page.js"></script>
+  
 
   <script>
     if (window.location.host.endsWith(".azurestaticapps.net") || window.location.host === "azurestaticapps.net" || 
@@ -93,6 +95,8 @@
     fetch(`lang/${lang}.json`)
       .then(response => response.json())
       .then(data => {
+        window.i18n = data;
+        document.documentElement.lang = lang;
         document.getElementById("title").innerText = data.title;
         document.getElementById("subtitle").innerText = data.subtitle;
         document.getElementById("label-business-id").innerText = data.labelBusinessId;
@@ -103,7 +107,13 @@
         document.getElementById("message-body-text").innerHTML = sanitizeHtml(data.text2 + data.text3 + data.text4 + data.text5); //+ data.text6
         document.getElementById("examples-label").innerText = data.examples;
         document.getElementById("links-label").innerText = data.links;
-        document.getElementById("contact-label").innerText = data.contact
+        document.getElementById("contact-label").innerText = data.contact;
+        document.getElementById("label-country").innerText = data.labelCountry;
+        ["NO", "SE", "FI", "IS"].forEach(code => {
+          document.getElementById("country-" + code).innerText = data["country" + code];
+        });
+        document.getElementById("languageSelect").setAttribute("aria-label", data.languageLabel);
+        document.getElementById("loader-text").innerText = data.loading;
         // osv. – legg til flere om nødvendig
       })
       .catch(error => {
@@ -115,10 +125,10 @@
 <body class="content">
   <section class="hero is-primary">
     <div class="hero-body">
-      <p class="title" id="title">Nordic Smart Government & Business Lookup</p>
+      <h1 class="title" id="title">Nordic Smart Government & Business Lookup</h1>
       <p class="subtitle" id="subtitle">data.altinn.no</p>
       <div class="select is-small is-pulled-right">
-        <select id="languageSelect">
+        <select id="languageSelect" aria-label="Språk / Language">
           <option value="en">English</option>
           <option value="no">Norsk</option>         
         </select>
@@ -143,15 +153,28 @@
     
     </article>
     <div class="field is-medium">
-      <label class="label" id="label-apikey">Enter your apikey</label>
+      <label class="label" id="label-apikey" for="txtApiKey">Enter your apikey</label>
       <div class="control">
         <input class="input is-medium" id="txtApiKey" type="text" placeholder="guid">
       </div>
     </div>    
     <div class="field is-medium">
-      <label class="label" id="label-business-id">Enter a business-ID</label>
+      <label class="label" id="label-country" for="selCountry">Country</label>
       <div class="control">
-        <input class="input is-medium" id="txtBusinessId" type="text" placeholder="NO:991825827">
+        <div class="select is-medium">
+          <select id="selCountry">
+            <option value="NO" id="country-NO">Norway</option>
+            <option value="SE" id="country-SE">Sweden</option>
+            <option value="FI" id="country-FI">Finland</option>
+            <option value="IS" id="country-IS">Iceland</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field is-medium">
+      <label class="label" id="label-business-id" for="txtBusinessId">Enter a business-ID</label>
+      <div class="control">
+        <input class="input is-medium" id="txtBusinessId" type="text" placeholder="991825827">
       </div>
     </div>
 
@@ -161,6 +184,8 @@
       <button class="button is-primary is-medium" id="btnLookup">Look up</button>
     </div>
 
+    <div id="js-status" class="is-sr-only" role="status" aria-live="polite"></div>
+
     <section class="columns result">
       <div id="js-result-formatted" class="column js-result formatted-result"></div>
       <div id="js-result-source" class="column js-result formatted-source"><pre></pre></div>                
@@ -168,41 +193,54 @@
 
     <div id="js-result-error" class="js-result error-result">
       <article class="message is-danger">
-        <div class="message-body" id="message-body-error">
+        <div class="message-body" id="message-body-error" role="alert">
           An error occurred: <span id="js-error-message"></span>
         </div>
       </article>
     </div>
 
     <div id="js-loader">
-      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      <div class="lds-ellipsis" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+      <span class="is-sr-only" id="loader-text">Laster …</span>
     </div>
   </div>
     <!--<div class="diagram">
       <img src="/gfx/diagram.svg" alt="Diagram">
     </div>
   -->
-    <footer>
-   
-        <label class="label" id="links-label">Links</label>
-      <ul>      
-        <li><a href="https://github.com/data-altinn-no/dan-plugin-nsg/">DAN NSG plugin</a></li>
-        <li><a href="https://docs.data.altinn.no/api/">Api</a></li>
-        <li><a href="https://docs.data.altinn.no/api/">NSG Api Specification</a></li>
-        <li><a href="https://www.brreg.no/bruke-data-fra-bronnoysundregistrene/datasett-og-api/">Brønnøysundregistrene </a></li>
-      </ul>
+    
+      <footer>
+        <div class="row no-gutters">
+          <div class="col-sm">
+            <div class="card h-100 rounded-0 border-0">
+              <div class="card-body">
+                <h2 class="card-title" id="links-label">Links</h2>
+                <ul class="card-text">      
+                  <li><a href="https://github.com/data-altinn-no/dan-plugin-nsg/">DAN NSG plugin</a></li>
+                  <li><a href="https://docs.data.altinn.no/api/">Api</a></li>
+                  <li><a href="https://docs.data.altinn.no/api/">NSG Api Specification</a></li>
+                  <li><a href="https://www.brreg.no/bruke-data-fra-bronnoysundregistrene/datasett-og-api/">Brønnøysundregistrene </a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
-      <label class="label" id="contact-label">Kontakt</label>
-      <ul>            
-        <li><a href="mailto:dan@altinn.no">data.altinn.no </a></li>
-        <li><a href="mailto:post@brreg.no">Brønnøysundregistrene </a></li>
-        <li><a href="mailto:tba">Skatturinn</a></li>
-        <li><a href="mailto:tba">Bolagsverket</a></li>
-        <li><a href="mailto:tba">Finnish Trade Register </a></li>        
-        <li><a href="https://join.slack.com/t/altinn/shared_invite/zt-2yp202pnk-PXnfUDQICM3PFDPXfehGiQ">NSG/data.altinn.no@slack</a></li>
-      </ul>
-  
-    </footer>
-  </div>
+          <div class="col-sm">
+            <div class="card h-100 rounded-0 border-0">
+              <div class="card-body">
+                <h2 class="card-title" id="contact-label">Kontakt</h2>
+                <ul class="card-text">            
+                  <li><a href="mailto:dan@altinn.no">data.altinn.no </a></li>
+                  <li><a href="mailto:post@brreg.no">Brønnøysundregistrene </a></li>
+                  <li><a href="mailto:tba">Skatturinn</a></li>
+                  <li><a href="mailto:tba">Bolagsverket</a></li>
+                  <li><a href="mailto:tba">Finnish Trade Register </a></li>        
+                  <li><a href="https://join.slack.com/t/altinn/shared_invite/zt-2yp202pnk-PXnfUDQICM3PFDPXfehGiQ">NSG/data.altinn.no@slack</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>   
+        </div> 
+      </footer>
 </body>
 </html>

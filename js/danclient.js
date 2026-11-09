@@ -1,17 +1,31 @@
 $(window).on("load", function() {
     $(".js-example").on("click", function(e) {
         e.preventDefault();
-        $("#txtBusinessId").val(e.target.innerText);
+        let parts = e.target.innerText.split(":");
+        $("#selCountry").val(parts[0]);
+        $("#txtBusinessId").val(parts[1]);
     })
 
     $("#btnLookup").on("click", function() {
         let $btn = $(this);
         let url = "https://api.data.altinn.no/nordicinformation/v1/registered-organisations";
         let apikey = $("#txtApiKey").val();
-        let id = $("#txtBusinessId").val();
-        
-        let country = id.split(":")[0];
-        let identifier = id.split(":")[1];
+        let country = $("#selCountry").val();
+        let identifier = $("#txtBusinessId").val().trim();
+
+        if (identifier.includes(":")) {
+            let parts = identifier.split(":");
+            let code = parts[0].trim().toUpperCase();
+            if ($("#selCountry option[value='" + code + "']").length) {
+                country = code;
+                $("#selCountry").val(code);
+                identifier = parts[1].trim();
+                $("#txtBusinessId").val(identifier);
+            } else {
+                country = null;
+            }
+        }
+        let id = country + ":" + identifier;
         let body = JSON.stringify({ "country": country, "notation": identifier });
         let requestGuid = crypto.randomUUID();
 
@@ -20,11 +34,13 @@ $(window).on("load", function() {
         console.log("country " + country + " identifier " + identifier);
         $(".js-result").hide();
         $("#js-loader").show();
+        $("#js-status").text(t("statusSearching", "Searching …"));
 
         if (!country || !identifier || !apikey || country.trim() === '' || identifier.trim() === '')
             {
-                $("#js-error-message").text("Invalid identifier or missing/invalid apikey");
+                $("#js-status").text("");
                 $("#js-result-error").show();
+                $("#js-error-message").text(t("errorInvalidInput", "Invalid identifier or missing/invalid apikey"));
                 $("#js-loader").hide();  
                 $btn.prop('disabled', false);
             } else {
@@ -58,22 +74,28 @@ $(window).on("load", function() {
                     } else if (r.statusText) {
                         errorMsg = r.statusText;
                     }
-                    $("#js-error-message").text(errorMsg);
+                    $("#js-status").text("");
                     $("#js-result-error").show();
+                    $("#js-error-message").text(errorMsg);
                 })
                   .always(function() {
                     $btn.removeAttr("disabled");
                     $("#js-loader").hide();
                 }).done(function(r) {
-                    $("#js-result-formatted").html(getFormatResultHtml(r));
+                    $("#js-result-formatted").html(getFormatResultHtml(r, country));
                     $("#js-result-source > pre").html(`POST <a href="${escapeHtml(url)}">${escapeHtml(url)}</a>\n <br>Body: ${syntaxHighlight(body)} <br></br> ${syntaxHighlight(JSON.stringify(r, null, 4))}`);
                     $("#js-result-formatted").show();
                     $("#js-result-source").show();
+                    $("#js-status").text(t("statusDone", "Result shown for") + " " + id);
                 });
             }      
     });
 
 });
+
+function t(key, fallback) {
+    return (window.i18n && window.i18n[key]) || fallback;
+}
 
 function escapeHtml(text) {
     if (text == null) return '';
@@ -104,45 +126,45 @@ function syntaxHighlight(json) {
     });
 }
 
-function getFormatResultHtml(r) {
+function getFormatResultHtml(r, country) {
 
     if (r.instance !== undefined)
     {
         console.log("Error: " + r.instance);
-        var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>`;
+        var result = `<div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng(country))}')"></div></div>`;
         return result;
     }
 
     var result = `
-    <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng($("#txtBusinessId").val().replace(/\s/, "")))}')"</div></div>
+    <div class="bg"><div style="background-image:url('/gfx/${escapeHtml(getFlagPng(country))}')"></div></div>
     <h2>${formatLongName(r.name)}</h2>
     <dl>
-    <dt>Legal Identifier:</dt><dd>${escapeHtml(r.identifier?.notation)}</dd>    
+    <dt>${escapeHtml(t("resultLegalIdentifier", "Legal Identifier:"))}</dt><dd>${escapeHtml(r.identifier?.notation)}</dd>    
     `;
 
     if (r.identifier?.issuingAuthorityName) {
-        result += `<dt>Issuing authority:</dt><dd>${escapeHtml(r.identifier.issuingAuthorityName)}</dd>`;
+        result += `<dt>${escapeHtml(t("resultIssuingAuthority", "Issuing authority:"))}</dt><dd>${escapeHtml(r.identifier.issuingAuthorityName)}</dd>`;
     }
 
     if (r.registrationDate != null) {
-        result += `<dt>Registration Date:</dt><dd>${escapeHtml(formatDate(r.registrationDate))}</dd>`;
+        result += `<dt>${escapeHtml(t("resultRegistrationDate", "Registration Date:"))}</dt><dd>${escapeHtml(formatDate(r.registrationDate))}</dd>`;
     }
 
     // NB: API-en har `postalAddress` og `registeredAddress` på topp-nivå (ikke under `addresses`).
     if (r.postalAddress?.fullAddress) {
-        result += "<dt>Postal address:</dt><dd>";
+        result += `<dt>${escapeHtml(t("resultPostalAddress", "Postal address:"))}</dt><dd>`;
         result += formatAddress(r.postalAddress.fullAddress);
         result += "</dd>";
     }
 
     if (r.registeredAddress?.fullAddress) {
-        result += "<dt>Registered address:</dt><dd>";
+        result += `<dt>${escapeHtml(t("resultRegisteredAddress", "Registered address:"))}</dt><dd>`;
         result += formatAddress(r.registeredAddress.fullAddress);
         result += "</dd>";
     }
 
     if (r.legalform?.name || r.legalform?.code) {
-        result += "<dt>Legal form:</dt><dd>";
+        result += `<dt>${escapeHtml(t("resultLegalForm", "Legal form:"))}</dt><dd>`;
         result += escapeHtml(r.legalform?.name || "");
         if (r.legalform?.code) {
             result += ` <small>(${escapeHtml(r.legalform.code)})</small>`;
@@ -151,18 +173,18 @@ function getFormatResultHtml(r) {
     }
 
     if (r.legalStatus?.code) {
-        result += "<dt>Legal status code:</dt><dd>";
+        result += `<dt>${escapeHtml(t("resultLegalStatusCode", "Legal status code:"))}</dt><dd>`;
         result += escapeHtml(r.legalStatus.code);
         result += "</dd>";
     }
     if (r.legalStatus?.name) {
-        result += "<dt>Legal status description:</dt><dd>";
+        result += `<dt>${escapeHtml(t("resultLegalStatusDescription", "Legal status description:"))}</dt><dd>`;
         result += escapeHtml(r.legalStatus.name);
         result += "</dd>";
     }
 
     if (Array.isArray(r.activity) && r.activity.length > 0) {
-        result += "<dt>Activity codes (NACE):</dt><dd><ul class='activity-list'>";
+        result += `<dt>${escapeHtml(t("resultActivityCodes", "Activity codes (NACE):"))}</dt><dd><ul class='activity-list'>`;
         r.activity.forEach(function (act) {
             var line = escapeHtml(act.code);
             if (act.reference) {
@@ -199,9 +221,8 @@ function formatDate(str) {
     return (new Date(str)).toLocaleDateString();
 }
 
-function getFlagPng(id) {
-    console.log("Looking for " + id.split(":")[0] + ".png");
-    return id.split(":")[0] + ".png"; 
+function getFlagPng(country) {
+    return country + ".png";
 }
 
 /*
